@@ -41,23 +41,35 @@
                 border-radius: 50%;
                 background: #ffffff66;
                 filter: blur(0.3px);
-                animation: bubble-up 10s linear infinite;
-                opacity: 0.7;
+                bottom: -200px; /* start well below view */
+                animation: bubble-up 14s linear infinite;
+                animation-fill-mode: both;
+                opacity: 0;
                 z-index: 10;
+            }
+
+            /* avoid flash before animations are ready */
+            .aquarium:not(.bubbles-ready) .bubble {
+                opacity: 0 !important;
+                animation: none !important;
             }
 
             @keyframes bubble-up {
                 0% {
-                    transform: translateY(20px);
+                    transform: translateY(0);
                     opacity: 0;
                 }
 
-                10% {
-                    opacity: 0.8;
+                18% {
+                    opacity: 0;
+                }
+
+                30% {
+                    opacity: 0.85;
                 }
 
                 100% {
-                    transform: translateY(-420px);
+                    transform: translateY(-600px);
                     opacity: 0;
                 }
             }
@@ -236,7 +248,8 @@
         </style>
     </head>
 
-    <body><div class="aquarium">
+    <body>
+        <div class="aquarium">
             <!-- 瘞渲?嚗1.png ~ g6.png -->
             <img src="g1.png" class="plant p1" alt="plant 1">
             <img src="g2.png" class="plant p2" alt="plant 2">
@@ -270,11 +283,14 @@
             <img src="fish9.png" class="fish f9" alt="">
         </div>
 
-                <script>
+        <script>
             // 初始化水族箱元件
             const aquarium = document.querySelector('.aquarium');
             const fishEls = Array.from(document.querySelectorAll('.fish'));
             const plantEls = Array.from(document.querySelectorAll('.plant'));
+
+            // 啟用泡泡動畫（避免載入瞬間閃現）
+            requestAnimationFrame(() => aquarium.classList.add('bubbles-ready'));
 
             // 初始化魚的資料
             const fishes = fishEls.map((el) => {
@@ -515,13 +531,3 @@
     </body>
 
 </html>
-
-
-
-
-
-
-
-
-
-
