@@ -41,7 +41,8 @@
                 border-radius: 50%;
                 background: #ffffff66;
                 filter: blur(0.3px);
-                bottom: -200px; /* start well below view */
+                bottom: -200px;
+                /* start well below view */
                 animation: bubble-up 14s linear infinite;
                 animation-fill-mode: both;
                 opacity: 0;
@@ -246,11 +247,22 @@
                 transition: opacity 0.3s ease;
             }
         </style>
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-WGLG9GE3K7"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+
+            gtag('config', 'G-WGLG9GE3K7');
+        </script>
     </head>
 
     <body>
         <div class="aquarium">
-            <!-- 瘞渲?嚗1.png ~ g6.png -->
             <img src="g1.png" class="plant p1" alt="plant 1">
             <img src="g2.png" class="plant p2" alt="plant 2">
             <img src="g3.png" class="plant p3" alt="plant 3">
@@ -264,14 +276,12 @@
             <img src="g5.png" class="plant p11" alt="plant 5">
             <img src="g6.png" class="plant p12" alt="plant 6">
 
-            <!-- 瘞?部 -->
             <div class="bubble b1"></div>
             <div class="bubble b2"></div>
             <div class="bubble b3"></div>
             <div class="bubble b4"></div>
             <div class="bubble b5"></div>
 
-            <!-- 擳?fish1.png ~ fish9.png -->
             <img src="fish1.png" class="fish f1" alt="">
             <img src="fish2.png" class="fish f2" alt="">
             <img src="fish3.png" class="fish f3" alt="">
