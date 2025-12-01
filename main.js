@@ -3,6 +3,17 @@
             const aquarium = document.querySelector('.aquarium');
             const fishEls = Array.from(document.querySelectorAll('.fish'));
             const plantEls = Array.from(document.querySelectorAll('.plant'));
+            const feedCountEl = document.getElementById('feedCount');
+            let feedCount = parseInt(localStorage.getItem('feedCount') || '0', 10);
+            const updateFeedDisplay = () => {
+                feedCountEl.textContent = feedCount;
+                localStorage.setItem('feedCount', String(feedCount));
+            };
+            updateFeedDisplay();
+            const incrementFeedCount = () => {
+                feedCount += 1;
+                updateFeedDisplay();
+            };
 
             // 啟用泡泡動畫（避免載入瞬間閃現）
             requestAnimationFrame(() => aquarium.classList.add('bubbles-ready'));
@@ -53,7 +64,7 @@
             const pelletRadius = 5;
             const fallSpeed = 0.35; // px per ms
 
-            function removeFood(food) {
+            function removeFood(food, eaten = false) {
                 if (food.stopTimer) {
                     clearTimeout(food.stopTimer);
                     food.stopTimer = null;
@@ -64,6 +75,9 @@
                 }
                 if (food.el.parentNode) {
                     food.el.remove();
+                }
+                if (eaten) {
+                    incrementFeedCount();
                 }
             }
 
@@ -212,7 +226,7 @@
                         const dist = Math.hypot(dx, dy);
                         if (dist < 18) {
                             target.el.classList.add('eaten');
-                            removeFood(target);
+                            removeFood(target, true);
                             fish.targetFood = null;
                         }
                     } else {

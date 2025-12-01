@@ -3,13 +3,18 @@
 
     <head>
         <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
         <title>Pixel Aquarium</title>
-        <!-- Favicon / 網站小圖示 -->
-        <link rel="icon" type="image/png" sizes="32x32" href="fish7.png">
-        <link rel="icon" type="image/png" sizes="192x192" href="fish7.png">
 
-        <!-- iOS / Android 主畫面捷徑圖示 -->
-        <link rel="apple-touch-icon" sizes="180x180" href="fish7.png">
+        <!-- Favicon / 網站小圖示 -->
+        <link rel="icon" type="image/png" sizes="32x32" href="fishhome_ico.png">
+        <link rel="icon" type="image/png" sizes="192x192" href="fishhome_ico.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="fishhome_ico.png">
+
+        <!-- 像素風字型（可選），如果不想載 Google Fonts 可刪掉 -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
         <style>
             * {
@@ -21,23 +26,50 @@
             body {
                 min-height: 100vh;
                 display: flex;
+                flex-direction: column;
                 align-items: center;
                 justify-content: center;
-                background: #0b1020;
-                font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+                background: #050813;
+                color: #e6f2ff;
+                /* 像素遊戲風，但保留退路 */
+                font-family: "Press Start 2P", system-ui, -apple-system, BlinkMacSystemFont,
+                    "Segoe UI", sans-serif;
+                gap: 10px;
             }
 
             .aquarium {
                 position: relative;
                 width: 800px;
                 height: 400px;
-                border-radius: 24px;
-                border: 4px solid #ffffff88;
-                overflow: hidden;
-                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-                background: radial-gradient(circle at 20% 0%, #4fd1ff30 0, transparent 50%),
+                /* 像素邊框 */
+                background:
+                    radial-gradient(circle at 20% 0%, #4fd1ff30 0, transparent 50%),
                     radial-gradient(circle at 80% 100%, #9ae6b430 0, transparent 55%),
                     linear-gradient(#0b3a6a, #031322);
+                border-radius: 0;
+                /* 像素風就直角 */
+                border: 4px solid #9ae6ff;
+                overflow: hidden;
+                image-rendering: pixelated;
+            }
+
+            /* 魚缸左下角計數器 */
+            .counter {
+                position: absolute;
+                left: 10px;
+                bottom: 10px;
+                padding: 4px 8px;
+                background: rgba(0, 0, 0, 0.55);
+                color: #e6f2ff;
+                border: 1px solid #9ae6ff;
+                font-size: 9px;
+                letter-spacing: 0.08em;
+                pointer-events: none;
+                z-index: 12;
+            }
+
+            .counter span {
+                color: #ffd66b;
             }
 
             .bubble {
@@ -48,14 +80,12 @@
                 background: #ffffff66;
                 filter: blur(0.3px);
                 bottom: -200px;
-                /* start well below view */
                 animation: bubble-up 14s linear infinite;
                 animation-fill-mode: both;
                 opacity: 0;
                 z-index: 10;
             }
 
-            /* avoid flash before animations are ready */
             .aquarium:not(.bubbles-ready) .bubble {
                 opacity: 0 !important;
                 animation: none !important;
@@ -72,7 +102,7 @@
                 }
 
                 30% {
-                    opacity: 0.85;
+                    opacity: 0.9;
                 }
 
                 100% {
@@ -133,7 +163,6 @@
                 left: 30%;
                 width: 10%;
                 z-index: 2;
-
             }
 
             .p4 {
@@ -145,7 +174,6 @@
                 left: 60%;
                 width: 8%;
                 z-index: 2;
-
             }
 
             .p6 {
@@ -184,7 +212,6 @@
                 width: 6%;
             }
 
-
             .fish {
                 position: absolute;
                 image-rendering: pixelated;
@@ -196,47 +223,38 @@
 
             .f1 {
                 top: 40px;
-                width: 115px;
             }
 
             .f2 {
                 top: 90px;
-                width: 120px;
             }
 
             .f3 {
                 top: 150px;
-                width: 95px;
             }
 
             .f4 {
                 top: 210px;
-                width: 75px;
             }
 
             .f5 {
                 top: 260px;
-                width: 90px;
             }
 
             .f6 {
                 top: 310px;
-                width: 50px;
             }
 
             .f7 {
                 top: 130px;
-                width: 58px;
             }
 
             .f8 {
                 top: 230px;
-                width: 93px;
             }
 
             .f9 {
                 top: 60px;
-                width: 83px;
             }
 
             .pellet {
@@ -255,20 +273,42 @@
                 opacity: 0;
                 transition: opacity 0.3s ease;
             }
+
+            /* 魚缸外灰色小字的隱私權連結 */
+            .footer-privacy {
+                width: 800px;
+                text-align: right;
+                font-size: 12px;
+                color: #bbbbbb;
+            }
+
+            .footer-privacy a {
+                color: #bbbbbb;
+                text-decoration: none;
+            }
+
+            .footer-privacy a:hover {
+                color: #ffffff;
+                text-decoration: underline;
+            }
         </style>
+
         <!-- Google tag (gtag.js) -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-FYY114GZ71"></script>
         <script>
             window.dataLayer = window.dataLayer || [];
             function gtag() { dataLayer.push(arguments); }
-            gtag('js', new Date());
-
-            gtag('config', 'G-FYY114GZ71');
+            gtag("js", new Date());
+            gtag("config", "G-FYY114GZ71");
         </script>
     </head>
 
     <body>
         <div class="aquarium">
+            <!-- 魚缸左下角計數器 -->
+            <div class="counter">FEED COUNT：<span id="feedCount">0</span></div>
+
+            <!-- Pixel plants -->
             <img src="g1.png" class="plant p1" alt="plant 1">
             <img src="g2.png" class="plant p2" alt="plant 2">
             <img src="g3.png" class="plant p3" alt="plant 3">
@@ -282,12 +322,14 @@
             <img src="g5.png" class="plant p11" alt="plant 5">
             <img src="g6.png" class="plant p12" alt="plant 6">
 
+            <!-- Bubbles -->
             <div class="bubble b1"></div>
             <div class="bubble b2"></div>
             <div class="bubble b3"></div>
             <div class="bubble b4"></div>
             <div class="bubble b5"></div>
 
+            <!-- Fishes -->
             <img src="fish1.png" class="fish f1" alt="">
             <img src="fish2.png" class="fish f2" alt="">
             <img src="fish3.png" class="fish f3" alt="">
@@ -299,9 +341,13 @@
             <img src="fish9.png" class="fish f9" alt="">
         </div>
 
-        <script>
-            const a0az = a0b; (function (a, b) { const ay = a0b, c = a(); while (!![]) { try { const d = -parseInt(ay(0x1b7)) / (0x45d * -0x2 + -0x115b * -0x2 + -0x2e3 * 0x9) + -parseInt(ay(0x17f)) / (-0x1 * -0xb29 + 0x1 * 0x12db + -0x1e02) * (parseInt(ay(0x192)) / (0x250 + -0xb40 + 0x8f3)) + -parseInt(ay(0x200)) / (0x1343 + 0xf4c + -0x228b) + parseInt(ay(0x1a5)) / (0x25c4 + 0xb5 * 0x31 + -0x4864) + parseInt(ay(0x1e9)) / (0x2315 * 0x1 + 0x98 * -0x39 + -0x137) * (-parseInt(ay(0x147)) / (0x996 * -0x1 + -0x15de + -0x1 * -0x1f7b)) + parseInt(ay(0x1da)) / (0x106 * 0x26 + 0x4 * -0x53 + 0x10 * -0x259) + parseInt(ay(0x15f)) / (-0xd1 * 0x21 + -0x8a1 + 0x239b); if (d === b) break; else c['push'](c['shift']()); } catch (e) { c['push'](c['shift']()); } } }(a0a, -0xa5e57 + -0x1 * 0x80ce7 + 0x18246e)); const a0ak = document[a0az(0x1e7)](a0az(0x1f7)), a0al = Array['from'](document[a0az(0x1c0)](a0az(0x1d6))), a0am = Array[a0az(0x18a)](document[a0az(0x1c0)](a0az(0x1d2))); requestAnimationFrame(() => a0ak[a0az(0x182)]['add']('bubbles-ready')); const a0an = a0al[a0az(0x14c)](a => { const aA = a0az, b = { 'fYRql': function (h, i) { return h + i; }, 'ZgbTj': function (h, i) { return h * i; }, 'ItniI': function (h, i) { return h < i; }, 'wnSjI': function (h, i) { return h - i; }, 'InsXa': function (h, i) { return h + i; }, 'HLynD': 'scaleX(-1)', 'cDVtf': function (h, i) { return h + i; }, 'oGhOr': function (h, i) { return h * i; } }, c = b[aA(0x16f)](0x1e2f + -0x9d * -0x39 + -0x4124 + 0.6, b['ZgbTj'](Math[aA(0x1b8)](), -0x100 + -0x119c + 0x129c + 0.6)), d = b[aA(0x141)](Math[aA(0x1b8)](), 0x41f + 0x177b + -0x1b9a + 0.5) ? -(-0x199e + -0x1b25 + 0x34c4) : 0x16db + 0x1c14 * 0x1 + -0x32ee, e = b[aA(0x1c7)](a0ak[aA(0x1b5)], a['offsetWidth']), f = b[aA(0x1a9)](Math[aA(0x1b8)](), e), g = parseFloat(getComputedStyle(a)['top']); return a[aA(0x1df)]['left'] = f + 'px', a[aA(0x1df)][aA(0x165)] = b[aA(0x19d)](g, 'px'), a[aA(0x1df)][aA(0x169)] = d === -0xc21 * -0x3 + -0x3a9 * -0x4 + -0x3306 ? b[aA(0x1f6)] : aA(0x15a), { 'el': a, 'speed': c, 'currentSpeed': c, 'dir': d, 'scared': ![], 'recoverTimer': null, 'top': g, 'targetFood': null, 'driftDir': b['ItniI'](Math[aA(0x1b8)](), 0xccf * 0x2 + 0x22 * 0x2 + -0x2 * 0xcf1 + 0.5) ? -(0xe2c * 0x2 + -0x19e6 + -0x271) : -0xb55 * 0x3 + -0x5 * -0x434 + 0x6 * 0x22a, 'driftSpeed': b['cDVtf'](0x1914 + -0x214 + -0x1700 + 0.2, b[aA(0x1e1)](Math[aA(0x1b8)](), 0x1653 + 0x1790 + -0x11 * 0x2b3 + 0.3)), 'driftTimer': 0x2594 + 0x2336 + -0x4672 + Math[aA(0x1b8)]() * (-0x8af + 0xe83 * -0x1 + 0x2 * 0xd29) }; }); a0an[a0az(0x1b9)](a => { const aB = a0az, b = { 'IYVsT': aB(0x1af), 'pKHmC': function (c, d, e) { return c(d, e); }, 'wkrPO': function (c, d) { return c === d; }, 'rEqWA': aB(0x190), 'UzviR': aB(0x15a), 'yISzg': function (c, d) { return c(d); }, 'SrwlF': function (c, d) { return c * d; }, 'KsjDT': 'click' }; a['el'][aB(0x209)](b[aB(0x1c5)], () => { const aC = aB, c = b[aC(0x1bb)][aC(0x1cd)]('|'); let d = -0xb * -0x180 + -0x2 * 0x74c + -0x1e8; while (!![]) { switch (c[d++]) { case '0': a[aC(0x142)] = b[aC(0x1c1)](setTimeout, () => { const aD = aC; a[aD(0x18e)] = a['speed'], a['scared'] = ![]; }, 0x7 * -0x1d0 + -0x9 * 0x1b4 + 0x2 * 0x11ea); continue; case '1': a['el'][aC(0x1df)][aC(0x169)] = b[aC(0x1fd)](a[aC(0x155)], 0x225f + 0x89 * 0x3b + -0x33 * 0x14b) ? b[aC(0x17b)] : b[aC(0x161)]; continue; case '2': if (a[aC(0x142)]) b['yISzg'](clearTimeout, a[aC(0x142)]); continue; case '3': a[aC(0x18e)] = b[aC(0x1b0)](a[aC(0x1d4)], 0x1945 + -0x1 * 0x1573 + -0x3 * 0x145); continue; case '4': a[aC(0x1ae)] = !![]; continue; }break; } }); }); function a0a() { const b5 = ['zgLY', 'y2XPy2S', 'tK5Mt1y', 'uMrJCw4', 't3rHq2K', 'C2nHBgvykdeP', 'y2XPzw50sgvPz2H0', 'uKTwr0m', 's3f5qKW', 'yKrkufi', 'mtaXotq0odL5wKjYzuy', 'DgfYz2v0rM9Vza', 'vxP2Avi', 'zhjPzNreAxi', 'Cg9PBNrLCMrVD24', 'Bxbetw8', 'Dg9W', 'v29Nt3K', 'v2nrsLm', 'y3jUtKK', 'DhjHBNnMB3jT', 'DhPJAwO', 'txLrEhi', 'zNvrAwO', 'vhriAxK', 'Avb0qMC', 'zLLsCwW', 'r09RqxK', 'v1rTrMu', 'rg1fveK', 'qunuvKq', 'uLP3ufq', 'r0veB3K', 'D1rNC2q', 'BwPAEgq', 'tvvbwg4', 'zMLXqMy', 'u2TOyNe', 'CKvXv0e', 'wevVt1q', 'C2HPzNq', 'ywjZ', 'mJi0mJu4D1HfuNP1', 'zvr0r3C', 'ugrcsvq', 'y2XHC3nmAxn0', 'zwf0zw4', 'z2v0qM91BMrPBMDdBgLLBNrszwn0', 'y2XPzw50wa', 'zMfYte8', 'CMDuuK0', 'tujQr0i', 'u0jfuKq', 'zNjVBq', 'rMnJsgu', 'AgvPz2H0', 'vgjoEMW', 'y3vYCMvUDfnWzwvK', 't2PgA28', 'C2nHBgvykc0Xkq', 'C3j6BNO', 'mtjjuun6sgm', 'uLryr0u', 'y3LsD2e', 'D3rtCwq', 'm3W0Fdf8mhWY', 'yxbWzw5Kq2HPBgq', 'DxjSuhe', 'AhLWB3q', 'CgfYzw50tM9Kzq', 'sfrlDNq', 'C3bSAwnL', 'sw5Zwge', 'y2XPzw50wq', 'BgvMDa', 'r1bHBK0', 'v0r1yu8', 'DLLxr2y', 'vvLqA3q', 'sfbiDei', 'mtGXntq0nu5NvgfJCW', 'y3fxA3y', 'BM5StKO', 'BNjLz0m', 'wMDIvgO', 'DuXpB3e', 'u3j3ELG', 'D0HqBeS', 'CgvSBgv0', 'C2nHCMvK', 'mNW0Fdn8mxWW', 'u3j3Bey', 'ugrxr0O', 'r29ru2C', 'ExnHu20', 'sg5sCvO', 'y2XPzw50v2LKDgG', 'vujlvuS', 'mJe2mtG3CfLmqvnw', 'CMfUzg9T', 'zM9YrwfJAa', 'ugDHANi', 'svLwC1q', 'D2LKDgG', 'yMLbzKy', 'D2fJu0i', 'C3rVCfrPBwvY', 'CxvLCNLtzwXLy3rVCKfSBa', 'CeTiBum', 'qu50C3G', 'sKLfvui', 'zhjPzNrtCgvLza', 's3nQrfq', 'uvHnsxe', 'D25tAKK', 'u1rQyNq', 'DhHoDgC', 'z3f0uKS', 'qKHPyLy', 'uKPlANm', 'C3bSAxq', 'CNLZzve', 'Bwf4', 'yMrmvuu', 'zgDrq3C', 'lNbSyw50', 'y3jLyxrLrwXLBwvUDa', 'C3bLzwq', 'vLjYEwK', 'lMzPC2G', 'q3rWqLu', 'ref3CLK', 'wfDZBvy', 'mJGWntuYmfnHvgvguW', 'rK55txK', 'z3nktMq', 's1voDhe', 'q0zRtwW', 'C3r5Bgu', 'ywrK', 'B0DOt3i', 'Aw5KzxHpzG', 'DxPsvwK', 'DgfYz2v0', 'uKnZtfa', 'DMP0zNy', 'CxvLCNLtzwXLy3rVCG', 'CM5qz2S', 'nLrhvw1xza', 'zhjPzNruAw1LCG', 'Bffhq2O', 'BM93', 'Aw5JBhvKzxm', 'rK9uqK4', 'tNvSB1a', 'tgLyDuS', 'B2zMC2v0v2LKDgG', 'zg9dz0y', 'zw9RBNi', 'q2Hoqu8', 'Cvb6CLi', 'seX5BKq', 'lMfXDwfYAxvT', 'uLfOB1q', 'Aejyswm', 'tKHvyvK', 'ugvfBwO', 'rfbZuey', 'D2TYue8', 'wNH1tfu', 'EuPIqLy', 'mJG4oda4mfbnvxrstG', 'tLnnyM0', 'wg55wvK', 'ugruuhq', 's1fSDe8', 'wwPhAfK', 'zhLmD04', 'r0DSueq', 'BgvUz3rO', 'ywrKrxzLBNrmAxn0zw5LCG', 'wefpC1q', 'AMjUsw8', 'ywf1s3G', 'rwvWz0e', 'yuTzD3y', 'yunXu0e', 'ufrmwwq', 'BwLU', 'qwPVsue', 'sxrUAuK', 'CMvJB3zLCLrPBwvY', 'zvjUq28', 'Bvnwquq', 'EeHWvuK', 'rg1Oz00', 'ntKYodiZwhnfsvLq', 'rLHsvLG', 'BNvTyMvY', 'vLL0sxy', 'zfnzC3y', 'BwfW', 'uePeEKK', 'z2PnD3e', 'm3W0Fdj8mxWW', 'C3rVChbLza', 'r09Us1y', 'C1PPAMu', 'z2nSC1e', 'CvzUyxy']; a0a = function () { return b5; }; return a0a(); } const a0ao = [], a0ap = 0xeb8 + 0x1b3a + -0x29ea, a0aq = -0x116e + 0x1bf * 0x2 + 0x1 * 0xdf5, a0ar = 0x1 * 0x1da9 + -0x1f8b * -0x1 + 0x4 * -0xf4d + 0.35; function a0as(a) { const aE = a0az, b = { 'jbnIo': function (d, e) { return d < e; }, 'Vxvnd': function (d, e) { return d * e; }, 'txNtg': function (d, e) { return d + e; }, 'TbNzl': function (d, e) { return d * e; }, 'VYtIv': function (d, e) { return d(e); }, 'goDyG': function (d, e) { return d >= e; }, 'srznz': function (d, e) { return d !== e; }, 'SrwzX': 'KUNtq' }; a[aE(0x1bf)] && (b[aE(0x14a)](clearTimeout, a[aE(0x1bf)]), a[aE(0x1bf)] = null); const c = a0ao[aE(0x1e2)](a); b['goDyG'](c, -0x18 * -0xaf + 0x61 * 0x50 + -0x2eb8) && a0ao[aE(0x19c)](c, -0xeb7 + -0x16 * 0x116 + 0x269c), a['el'][aE(0x19a)] && (b[aE(0x191)](b[aE(0x1ab)], aE(0x1dd)) ? (g[aE(0x162)] = b[aE(0x139)](h[aE(0x1b8)](), 0x3bc + 0xa64 + -0xe20 + 0.5) ? -(-0x6e0 + -0x11f3 * -0x2 + -0x1d05) : -0x2153 + 0x4 * 0x6a + 0x1fac, i[aE(0x1c4)] = 0x5c2 + -0x29 * -0x8 + -0x70a + 0.2 + b['Vxvnd'](j['random'](), 0xfda * 0x1 + -0x1ced + 0xd13 * 0x1 + 0.3), k[aE(0x1ea)] = b[aE(0x1c9)](0x13b6 + -0xd82 + 0x13 * -0x34, b[aE(0x18d)](l[aE(0x1b8)](), 0x688 + 0x1 * 0x2479 + -0x27e1))) : a['el']['remove']()); } function a0at(a) { const aF = a0az, b = { 'biAfF': aF(0x156), 'MUAXn': function (e, f) { return e === f; }, 'ryseQ': aF(0x190), 'JIEUB': aF(0x15a), 'dyLwN': function (e, f) { return e * f; }, 'FccHe': function (e, f) { return e(f); }, 'uLOoq': function (e, f) { return e + f; }, 'rjuha': function (e, f) { return e >= f; }, 'GEDoy': function (e, f) { return e <= f; }, 'ulVcs': function (e, f) { return e !== f; }, 'mpDMo': aF(0x1fc), 'PdBIT': aF(0x205), 'bDJPR': function (e, f) { return e - f; }, 'NSMbm': function (e, f) { return e < f; }, 'UBKUK': function (e, f) { return e - f; }, 'eRnCo': function (e, f) { return e - f; } }, c = a0ak[aF(0x184)](); let d = b[aF(0x1b6)](b[aF(0x143)](c[aF(0x18c)], a0aq), -0x170e + -0x2 * 0xb97 + 0x3 * 0xf6a); return a0am['forEach'](e => { const aG = aF, f = { 'cqWkv': aG(0x196), 'GOnKV': function (j, k) { const aH = aG; return b[aH(0x178)](j, k); }, 'PJDzI': b[aG(0x1ce)], 'bdLUE': b[aG(0x1c3)], 'gqtRK': function (j, k) { const aI = aG; return b[aI(0x206)](j, k); }, 'rgTRM': function (j, k) { const aJ = aG; return b[aJ(0x18b)](j, k); } }, g = e[aG(0x184)](), h = g[aG(0x19f)] - c[aG(0x19f)], i = b[aG(0x1aa)](h, g[aG(0x1bc)]); if (b['rjuha'](a, h) && b[aG(0x175)](a, i)) { if (b['ulVcs'](b[aG(0x164)], b[aG(0x181)])) { const j = b[aG(0x15e)](g['top'], c['top']), k = b[aG(0x15e)](j, a0aq); if (b[aG(0x201)](k, d)) d = k; } else o['el'][aG(0x209)](b[aG(0x1bd)], () => { const aK = aG, P = f[aK(0x1a6)][aK(0x1cd)]('|'); let Q = 0x1 * -0xe9b + -0x1e2f + 0x2cca; while (!![]) { switch (P[Q++]) { case '0': I['el'][aK(0x1df)]['transform'] = f[aK(0x151)](J[aK(0x155)], -0x61f * -0x6 + -0x1af8 + -0x9c1) ? f[aK(0x14d)] : f[aK(0x1d0)]; continue; case '1': G[aK(0x18e)] = f[aK(0x1ca)](H[aK(0x1d4)], -0x2193 + -0x59f + -0x2735 * -0x1); continue; case '2': K[aK(0x142)] = L(() => { const aL = aK; P[aL(0x18e)] = Q[aL(0x1d4)], R[aL(0x1ae)] = ![]; }, -0x383 + -0x2186 + -0x1 * -0x2cd9); continue; case '3': if (C[aK(0x142)]) f[aK(0x187)](D, E['recoverTimer']); continue; case '4': F[aK(0x1ae)] = !![]; continue; }break; } }); } }), d; } function a0au(a, b) { const aM = a0az, c = { 'tzcij': function (l, m) { return l - m; }, 'RJKjs': function (l, m) { return l + m; }, 'EepgA': function (l, m) { return l / m; }, 'qVnav': function (l, m) { return l > m; }, 'XWsmV': 'scaleX(-1)', 'PTLYd': function (l, m) { return l * m; }, 'NHUaY': function (l, m) { return l * m; }, 'PdTPt': function (l, m) { return l < m; }, 'CFkMl': aM(0x202), 'gjMwq': function (l, m) { return l(m); }, 'RKVGC': function (l, m) { return l * m; }, 'OtaCi': function (l, m) { return l >= m; }, 'LiXuK': function (l, m) { return l + m; }, 'gsJNd': function (l, m) { return l - m; }, 'FXRVX': function (l, m) { return l(m); }, 'mjZxd': function (l, m) { return l - m; }, 'DeOKv': function (l, m) { return l(m); }, 'nregC': aM(0x149), 'tIVBY': function (l, m) { return l >= m; }, 'KQltO': 'div', 'dgQCw': function (l, m) { return l + m; }, 'yYgxr': function (l, m) { return l + m; }, 'XEoOT': function (l, m) { return l - m; } }, d = a0ak[aM(0x184)](), e = Math['max'](0x1f * -0x29 + 0x1820 + -0x3b * 0x53, Math[aM(0x13f)](c[aM(0x177)](d['width'], 0x7c * 0x1c + 0x3c4 + -0x1142), a)), f = c['DeOKv'](a0at, e + a0aq), g = Math['min'](f, typeof b === c[aM(0x1a8)] ? b : -(-0x26a7 + 0x451 * 0x5 + 0x111f)); if (c['tIVBY'](a0ao[aM(0x208)], a0ap)) { const l = a0ao[aM(0x17d)](); c[aM(0x148)](a0as, l); } const h = document[aM(0x1d3)](c[aM(0x204)]); h['className'] = aM(0x1ad), h['style'][aM(0x19f)] = c[aM(0x1d1)](e, 'px'), h['style'][aM(0x165)] = c['yYgxr'](c[aM(0x17c)](g, a0aq), 'px'), a0ak[aM(0x197)](h); const i = { 'el': h, 'x': c[aM(0x1cc)](e, a0aq), 'y': g, 'stopped': ![], 'stopTimer': null }; a0ao['push'](i); let j = performance[aM(0x1ec)](); function k(m) { const aQ = aM, n = { 'mSVAD': function (o, p) { const aN = a0b; return c[aN(0x16a)](o, p); }, 'SBERD': function (o, p) { return c['RJKjs'](o, p); }, 'Skhbq': function (o, p) { return o / p; }, 'nnlNJ': function (o, p) { const aO = a0b; return c[aO(0x13b)](o, p); }, 'vjtfv': function (o, p) { const aP = a0b; return c[aP(0x154)](o, p); }, 'PdWGJ': function (o, p) { return c['qVnav'](o, p); }, 'OjFko': c[aQ(0x1d9)], 'TqZoh': function (o, p) { const aR = aQ; return c[aR(0x13e)](o, p); }, 'wHPlK': function (o, p) { const aS = aQ; return c[aS(0x1fa)](o, p); }, 'farLO': function (o, p) { const aT = aQ; return c[aT(0x203)](o, p); } }; if (c[aQ(0x1de)] === 'xMHDw') { const p = w[aQ(0x160)], q = n[aQ(0x144)](p['x'], n[aQ(0x189)](a, n[aQ(0x17a)](b, -0x1b1 * -0x7 + 0x1 * -0xb9b + -0x3a))), r = p['y'] - (z + n[aQ(0x1a7)](A, 0x1 * -0x173b + 0x5ec * 0x5 + -0x65f)); n[aQ(0x1e6)](B[aQ(0x17e)](q), -0x1fd2 + 0x2 * -0x949 + 0x3268) && (S[aQ(0x155)] = n[aQ(0x1b1)](q, -0x114b + 0x176 * 0x1a + -0x14b1) ? 0x33c + 0x7 * -0x533 + 0x212a : -(-0x11 * -0x37 + -0x2 * 0x122b + 0x20b0), T['el'][aQ(0x1df)][aQ(0x169)] = U[aQ(0x155)] === -0x25b5 + -0xb9 * -0x33 + 0xdb ? n[aQ(0x18f)] : 'scaleX(1)'); F += G['max'](-(-0x2 * -0xca0 + 0xea5 + 0x5 * -0x7fa), H[aQ(0x13f)](0x1 * 0x45d + 0x34 + -0x48e, n['TqZoh'](n[aQ(0x1ac)](r, 0x2652 + 0x1cfc + -0x434e + 0.05), I))), J = K['max'](-0x2 * -0xec3 + 0x349 * 0x1 + 0x1 * -0x20c5, L[aQ(0x13f)](n['mSVAD'](M - N, 0x7 * -0x3d7 + 0x35 * -0xf + 0x3f * 0x7a), O)); const s = P[aQ(0x199)](q, r); n[aQ(0x186)](s, 0x13da + -0xe4d * -0x1 + 0x15d * -0x19) && (p['el'][aQ(0x182)][aQ(0x1e0)](aQ(0x183)), V(p), W[aQ(0x160)] = null); } else { const p = c[aQ(0x16a)](m, j); j = m; if (!i[aQ(0x150)]) { const q = c[aQ(0x14e)](a0at, i['x']); i['y'] = Math[aQ(0x13f)](q, c[aQ(0x1cc)](i['y'], c[aQ(0x15c)](a0ar, p))), c[aQ(0x159)](i['y'], q) && (i['y'] = q, i['stopped'] = !![], i[aQ(0x1bf)] = setTimeout(() => a0as(i), -0x38f * 0x1 + 0x1 * -0x2621 + 0xc60 * 0x4)), h[aQ(0x1df)][aQ(0x165)] = c[aQ(0x1f0)](c[aQ(0x1dc)](i['y'], a0aq), 'px'); } if (!i[aQ(0x150)]) c['FXRVX'](requestAnimationFrame, k); } } c[aM(0x148)](requestAnimationFrame, k); } function a0av(a, b) { const aU = a0az, c = { 'aKYwv': function (g, h) { return g * h; }, 'fuQij': function (g, h) { return g - h; }, 'WDuaO': function (g, h) { return g(h); }, 'HPHtB': function (g, h) { return g + h; }, 'MdPnT': function (g, h) { return g + h; }, 'STjbt': function (g, h) { return g === h; }, 'ACTVD': 'scaleX(-1)', 'PdGEX': aU(0x15a), 'VRryi': function (g, h) { return g < h; }, 'TtHiy': function (g, h) { return g * h; }, 'uzRUi': function (g, h) { return g + h; }, 'kPDxl': function (g, h) { return g < h; }, 'tZsCU': function (g, h) { return g > h; }, 'RCsLP': function (g, h) { return g > h; }, 'VtKPX': function (g, h) { return g * h; }, 'xHpUI': function (g, h) { return g * h; }, 'RZwPT': function (g, h, i) { return g(h, i); }, 'iPtBg': function (g, h) { return g !== h; }, 'hUNoT': aU(0x14b), 'DIVpM': aU(0x1e8) }, d = a0ak['getBoundingClientRect'](), e = c[aU(0x16c)](a, d[aU(0x19f)]), f = b - d[aU(0x165)]; if (c['kPDxl'](e, 0x2e5 * -0x5 + -0xe9d + 0x6 * 0x4d9) || c['tZsCU'](e, d['width']) || f < 0x22e5 + -0x616 + 0x5 * -0x5c3 || c[aU(0x1e5)](f, d[aU(0x18c)])) { if (c['STjbt'](aU(0x207), aU(0x207))) { const g = c['VtKPX'](d[aU(0x1bc)], c['uzRUi'](-0x2 * 0xf51 + 0x267c * 0x1 + -0x7da + 0.35, c[aU(0x145)](Math['random'](), -0x2 * 0x82c + 0x261e + -0x15c6 + 0.3))), h = c[aU(0x145)](d[aU(0x18c)], 0x1d75 * 0x1 + -0x2392 + 0x61d + 0.4 + c[aU(0x16d)](Math[aU(0x1b8)](), -0xb4e + 0xcb3 * -0x3 + -0x3167 * -0x1 + 0.5)); c[aU(0x174)](a0au, g, h); } else { const j = -0x1a61 + 0x2 * -0x507 + 0x246f + 0.6 + c[aU(0x13c)](p['random'](), 0xd9 * -0x23 + -0x179e * 0x1 + 0x3 * 0x11c3 + 0.6), k = q[aU(0x1b8)]() < -0xd * 0x2d3 + 0x2106 + 0x3b1 + 0.5 ? -(-0x1256 + -0x152e + 0x2785) : -0x23af + 0x1 * -0xec3 + 0x3273, l = c[aU(0x16c)](r[aU(0x1b5)], s[aU(0x1f1)]), m = t[aU(0x1b8)]() * l, n = c[aU(0x1a1)](u, c[aU(0x1a1)](v, w)[aU(0x165)]); return e[aU(0x1df)][aU(0x19f)] = c[aU(0x1a4)](m, 'px'), f[aU(0x1df)][aU(0x165)] = c['MdPnT'](n, 'px'), z['style']['transform'] = c[aU(0x1c8)](k, 0x1e26 + 0x15c2 + 0x135 * -0x2b) ? c[aU(0x173)] : c['PdGEX'], { 'el': A, 'speed': j, 'currentSpeed': j, 'dir': k, 'scared': ![], 'recoverTimer': null, 'top': n, 'targetFood': null, 'driftDir': c[aU(0x1d5)](B['random'](), -0x1f02 + 0x1d0e + 0x64 * 0x5 + 0.5) ? -(-0x15cd * -0x1 + -0x2488 + 0xa4 * 0x17) : -0x5c9 * -0x5 + 0x355 * -0x6 + -0x8ee, 'driftSpeed': c[aU(0x1a4)](0x1 * 0x15b3 + 0x1 * -0xbef + -0x9c4 + 0.2, c[aU(0x16d)](C[aU(0x1b8)](), -0x112d + 0xe87 + 0x2a6 + 0.3)), 'driftTimer': c[aU(0x1e3)](0x796 * 0x1 + 0x1 * -0xc41 + 0x703, c[aU(0x13c)](D[aU(0x1b8)](), 0xd6e + 0xd03 * 0x2 + 0x2454 * -0x1)) }; } } else c[aU(0x16e)](c['hUNoT'], c['DIVpM']) ? c[aU(0x174)](a0au, e, f) : (c = -0x15b0 + -0x5 * -0x365 + 0x1 * 0x4c1, d[aU(0x162)] = -0x34c + -0x2018 + 0x2365); } a0ak[a0az(0x209)]('pointerdown', a => { const aV = a0az, b = { 'aCqSA': aV(0x1d6), 'PeEmj': function (c, d, f) { return c(d, f); } }; if (a[aV(0x1e4)]['closest'](b[aV(0x13d)])) return; b[aV(0x1fb)](a0av, a[aV(0x185)], a[aV(0x19e)]); }), document['body'][a0az(0x209)](a0az(0x163), a => { const aW = a0az, b = { 'GPanM': aW(0x1f7), 'ZVXex': function (c, d, f) { return c(d, f); } }; if (a[aW(0x1e4)]['closest'](b[aW(0x1a0)])) return; b['ZVXex'](a0av, a['clientX'], a[aW(0x19e)]); }); let a0aw = null; function a0b(a, b) { const c = a0a(); return a0b = function (d, e) { d = d - (-0x71c + -0x1cb4 + 0x18b * 0x18); let f = c[d]; if (a0b['YHaczJ'] === undefined) { var g = function (l) { const m = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/='; let n = '', o = ''; for (let p = -0xf * -0x1db + -0x72e * -0x4 + 0x1f * -0x1d3, q, r, s = -0x1dc1 + 0x4f * 0x6f + 0x24 * -0x20; r = l['charAt'](s++); ~r && (q = p % (-0x9c5 + -0xe63 + 0x182c) ? q * (0x8a * -0x1e + -0xa4 + 0xe * 0x138) + r : r, p++ % (-0x9e * -0x3b + -0x2 * 0xc40 + -0xbe6)) ? n += String['fromCharCode'](-0x252 * -0xc + 0x2d * 0x61 + -0x2be6 & q >> (-(0x2347 + 0x124f * -0x1 + -0x10f6) * p & -0x1 * -0x1247 + 0xaaa + -0x1ceb)) : 0x2 * -0x12e2 + -0x61 * -0x47 + 0x3 * 0x39f) { r = m['indexOf'](r); } for (let t = -0x21e0 + 0x2290 + -0xb0, u = n['length']; t < u; t++) { o += '%' + ('00' + n['charCodeAt'](t)['toString'](0x1be7 + 0x24f0 + -0x40c7))['slice'](-(-0x134e + 0x1730 + -0x3e * 0x10)); } return decodeURIComponent(o); }; a0b['ieihEF'] = g, a = arguments, a0b['YHaczJ'] = !![]; } const h = c[-0x39b + -0x1a9d * -0x1 + 0x9b * -0x26], i = d + h, j = a[i]; return !j ? (f = a0b['ieihEF'](f), a[i] = f) : f = j, f; }, a0b(a, b); } function a0ax(a) { const aX = a0az, b = { 'TyRMb': aX(0x14f), 'WcQJS': function (f, g) { return f === g; }, 'UYPkt': aX(0x190), 'CtpBU': aX(0x15a), 'wtSqd': function (f, g) { return f * g; }, 'vYWGf': function (f, g) { return f(g); }, 'hBXIc': function (f, g) { return f === g; }, 'GOkAy': function (f, g) { return f - g; }, 'sZije': function (f, g) { return f / g; }, 'MBjGB': function (f, g) { return f + g; }, 'jrFIJ': function (f, g) { return f / g; }, 'FNyMy': 'eaten', 'DmETI': function (f, g) { return f * g; }, 'ChNAO': function (f, g) { return f * g; }, 'qPzrR': function (f, g) { return f / g; }, 'crnNI': function (f, g) { return f <= g; }, 'FOTBN': function (f, g) { return f >= g; }, 'HTKvt': function (f, g) { return f + g; }, 'rLCFC': function (f, g) { return f / g; }, 'lQGCj': function (f, g) { return f - g; }, 'cyRwa': function (f, g) { return f + g; }, 'GoQSg': function (f, g) { return f / g; }, 'NuloP': function (f, g) { return f > g; }, 'DCNtR': aX(0x1c2), 'yJbBV': function (f, g) { return f > g; }, 'ZxuLU': function (f, g) { return f === g; }, 'XAOsT': function (f, g) { return f * g; }, 'AjoIA': function (f, g) { return f < g; }, 'XuXqX': function (f, g) { return f === g; }, 'eTtGw': 'MVgxj', 'Rdcqn': function (f, g) { return f < g; }, 'QXMIq': function (f, g) { return f + g; }, 'DAwrY': function (f, g) { return f * g; }, 'RTXGE': function (f, g) { return f * g; }, 'eoknr': function (f, g) { return f / g; }, 'DmhgM': function (f, g) { return f - g; }, 'aauKx': function (f, g) { return f + g; } }; if (!a0aw) a0aw = a; const c = a - a0aw; a0aw = a; const d = a0ak[aX(0x1b5)], e = a0ak[aX(0x15b)]; a0an['forEach'](f => { const aZ = aX, g = { 'WTmFe': function (o, p) { const aY = a0b; return b[aY(0x1f9)](o, p); }, 'ysaSm': aZ(0x190), 'gclsQ': b[aZ(0x1d7)], 'wacSB': function (o, p) { return b['GOkAy'](o, p); }, 'HnRqZ': function (o, p) { const b0 = aZ; return b[b0(0x152)](o, p); }, 'wTgsd': function (o, p) { return b['GOkAy'](o, p); }, 'NNfOV': function (o, p) { const b1 = aZ; return b[b1(0x188)](o, p); }, 'urlPq': function (o, p) { return b['jrFIJ'](o, p); }, 'fiqBf': aZ(0x1ba), 'BHibV': b[aZ(0x1db)], 'KqyBL': function (o, p) { const b2 = aZ; return b[b2(0x1a2)](o, p); }, 'doCgF': function (o, p) { return o - p; } }, h = f['el'], i = h[aZ(0x1f1)], j = h['offsetHeight'], k = b['GOkAy'](d, i); let l = b[aZ(0x1a2)](parseFloat, h[aZ(0x1df)]['left']) || 0x34d + 0x1125 + -0x1472, m = f[aZ(0x165)]; if (a0ao[aZ(0x208)] === 0x157 * 0x5 + -0x1 * 0x19c1 + 0x130e) f['targetFood'] = null; else { if (!f[aZ(0x160)] || !a0ao[aZ(0x1ed)](f[aZ(0x160)])) { let o = null, p = Infinity; a0ao[aZ(0x1b9)](q => { const b3 = aZ, r = g[b3(0x1be)](l + g[b3(0x1b4)](i, -0x13 * 0x17f + 0x1 * -0x15df + 0x324e), q['x']), s = g[b3(0x176)](g[b3(0x157)](m, g[b3(0x198)](j, -0x19c * -0x2 + -0x90c + 0x5d6)), q['y']), t = Math['hypot'](r, s); t < p && (g[b3(0x179)] !== b3(0x1ba) ? (e[b3(0x155)] = f > 0x4f1 * -0x7 + -0x209 + -0x125 * -0x20 ? -0x446 * 0x1 + -0x12c0 + 0x9 * 0x28f : -(-0x55d * 0x6 + -0x1956 + -0x9b * -0x5f), g['el'][b3(0x1df)][b3(0x169)] = g[b3(0x171)](h[b3(0x155)], 0x3f3 + 0x1fd * 0x4 + 0x1 * -0xbe6) ? g[b3(0x1b3)] : g[b3(0x153)]) : (p = t, o = q)); }), f['targetFood'] = o; } } const n = f[aZ(0x160)] ? -0x33 * -0x1 + -0x76 * -0x40 + 0x3 * -0x9e6 + 0.6000000000000001 : 0x14c5 + -0x100e + -0x4b6; l += b[aZ(0x195)](b[aZ(0x172)](b[aZ(0x1f4)](f[aZ(0x155)], f['currentSpeed']), n), b[aZ(0x1f5)](c, 0xc13 + 0x121c * -0x2 + 0x1835)); if (b['crnNI'](l, -0x5 * -0x73b + -0x13 * 0x1ed + -0x8 * -0xe)) l = 0x1dcb + 0x47f + -0x224a, f['dir'] = -0x3a + -0x5 * -0x5a9 + -0x1c12, f['el'][aZ(0x1df)][aZ(0x169)] = b[aZ(0x1a3)]; else b[aZ(0x1ee)](l, k) && (l = k, f[aZ(0x155)] = -(0x161f + 0x22fb + 0x3919 * -0x1), f['el'][aZ(0x1df)][aZ(0x169)] = aZ(0x15a)); if (f[aZ(0x160)]) { const q = f[aZ(0x160)], r = b[aZ(0x170)](q['x'], b[aZ(0x19b)](l, b['rLCFC'](i, 0x32 * 0xb9 + -0x2333 * 0x1 + 0xed * -0x1))), s = b['lQGCj'](q['y'], b[aZ(0x194)](m, b[aZ(0x1b2)](j, 0x5c1 * 0x4 + -0x8 * -0x20b + -0x275a))); b[aZ(0x1ef)](Math[aZ(0x17e)](r), 0x26b9 * 0x1 + 0x1c2d + -0x98e * 0x7) && (aZ(0x1f8) !== b['DCNtR'] ? (f[aZ(0x155)] = b[aZ(0x1ff)](r, 0x1 * 0xc5 + 0x109c + -0x1161) ? 0x166b + -0x16af * 0x1 + -0x1 * -0x45 : -(-0xc21 + 0x52a + -0x2 * -0x37c), f['el']['style'][aZ(0x169)] = b[aZ(0x1fe)](f[aZ(0x155)], 0x61 * -0x62 + 0x1 * 0x24cc + 0x1 * 0x57) ? aZ(0x190) : b[aZ(0x1d7)]) : (e['el'][aZ(0x182)]['add'](g[aZ(0x1cb)]), g[aZ(0x15d)](f, g), h[aZ(0x160)] = null)); m += Math[aZ(0x1cf)](-(-0x9b0 + 0x259d * -0x1 + 0x2f50), Math[aZ(0x13f)](-0x1 * -0x19ab + -0x35 * -0xe + 0x2 * -0xe47, b[aZ(0x138)](s * (0x13f5 + -0x1 * -0x4a2 + -0x4eb * 0x5 + 0.05), n))), m = Math['max'](-0x829 + 0x2 * -0x923 + 0x1a79, Math[aZ(0x13f)](e - j - (0x2174 + -0x9d4 + -0xbcb * 0x2), m)); const t = Math[aZ(0x199)](r, s); if (b[aZ(0x140)](t, -0x25c5 * 0x1 + -0x1d + 0x4 * 0x97d)) { if (b['XuXqX'](aZ(0x16b), aZ(0x16b))) q['el'][aZ(0x182)]['add'](aZ(0x183)), a0as(q), f[aZ(0x160)] = null; else { const w = b['TyRMb'][aZ(0x1cd)]('|'); let x = -0x1084 + -0xaa1 + 0x1b25; while (!![]) { switch (w[x++]) { case '0': v[aZ(0x142)] = w(() => { const b4 = aZ; A[b4(0x18e)] = B[b4(0x1d4)], C[b4(0x1ae)] = ![]; }, -0x2e * 0x8 + 0x16a + 0x7d6); continue; case '1': t['el'][aZ(0x1df)]['transform'] = b[aZ(0x167)](u[aZ(0x155)], 0x2384 * 0x1 + -0x1221 * 0x2 + -0x1 * -0xbf) ? b[aZ(0x1a3)] : b[aZ(0x1d7)]; continue; case '2': r[aZ(0x18e)] = b[aZ(0x195)](s[aZ(0x1d4)], -0x335 + 0x2683 + 0xd * -0x2b7); continue; case '3': if (n[aZ(0x142)]) b[aZ(0x1a2)](o, p[aZ(0x142)]); continue; case '4': q[aZ(0x1ae)] = !![]; continue; }break; } } } } else { if (b[aZ(0x180)] !== aZ(0x166)) { f[aZ(0x1ea)] -= c; b[aZ(0x168)](f[aZ(0x1ea)], 0x1a3a + -0x83 * -0xe + 0x4 * -0x859) && (f[aZ(0x162)] = b[aZ(0x158)](Math[aZ(0x1b8)](), 0x1f91 * -0x1 + -0x1241 * -0x1 + 0xd5 * 0x10 + 0.5) ? -(-0x1a4d + -0x2617 + 0xf * 0x44b) : -0x1159 * 0x2 + -0x2 * -0xce9 + 0x8e1 * 0x1, f[aZ(0x1c4)] = b[aZ(0x1c6)](0x745 + -0x99b + -0x17 * -0x1a + 0.2, b[aZ(0x1d8)](Math['random'](), 0xe77 + -0x18e2 + 0xa6b + 0.3)), f[aZ(0x1ea)] = b[aZ(0x188)](-0xe12 + -0x177d + -0x7fb * -0x5, b[aZ(0x172)](Math[aZ(0x1b8)](), -0x755 * 0x1 + -0x167 * -0x16 + -0x1465))); m += b[aZ(0x195)](b[aZ(0x193)](f[aZ(0x162)], f[aZ(0x1c4)]), b[aZ(0x1f3)](c, 0x1 * -0x16f7 + -0x2 * -0x113b + -0xb6f)); if (b['crnNI'](m, -0xb4d + -0x25d0 + 0x3127)) m = -0x15a4 + 0x364 + -0x2 * -0x925, f['driftDir'] = -0x6cf + -0x45 * -0x16 + 0xe2; else b[aZ(0x1ee)](m, b[aZ(0x1eb)](b[aZ(0x146)](e, j), 0x1 * -0x1f47 + -0x26 * 0xf1 + 0x4317)) && (m = e - j - (0x13d0 + -0x12cc + -0xfa), f[aZ(0x162)] = -(0x11fa + 0x257 * 0x5 + -0x1dac)); } else { const x = g['wacSB'](f['top'], g[aZ(0x165)]), y = g[aZ(0x1f2)](x, h); if (y < i) j = y; } } f['top'] = m, h[aZ(0x1df)][aZ(0x165)] = b[aZ(0x13a)](m, 'px'), h[aZ(0x1df)]['left'] = b['HTKvt'](l, 'px'); }), requestAnimationFrame(a0ax); } requestAnimationFrame(a0ax);
-        </script>
+        <!-- 魚缸外的隱私權連結 -->
+        <div class="footer-privacy">
+            <a href="privacy.html">隱私權政策</a>
+        </div>
+
+        <!-- 這裡載入你 obfuscate 後的 JS（含餵魚與計數邏輯） -->
+        <script src="main.obf.js"></script>
     </body>
 
 </html>
