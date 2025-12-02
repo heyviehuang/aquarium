@@ -4,8 +4,8 @@
             const fishEls = Array.from(document.querySelectorAll('.fish'));
             const plantEls = Array.from(document.querySelectorAll('.plant'));
             const feedCountEl = document.getElementById('feedCount');
-            const mobileSpeedFactor = window.innerWidth <= 640 ? 0.55 : 1;
-            const mobileDriftFactor = window.innerWidth <= 640 ? 0.35 : 1;
+            const mobileSpeedFactor = window.innerWidth <= 640 ? 0.37 : 1;
+            const mobileDriftFactor = window.innerWidth <= 640 ? 0.23 : 1;
             const mobileYFactor = window.innerWidth <= 640 ? 0.6 : 1;
             let feedCount = parseInt(localStorage.getItem('feedCount') || '0', 10);
             const updateFeedDisplay = () => {
