@@ -52,9 +52,7 @@
             }
 
             .counter {
-                position: absolute;
-                left: 6px;
-                bottom: 6px;
+                position: static;
                 padding: 3px 6px;
                 background: rgba(0, 0, 0, 0.55);
                 color: #e6f2ff;
@@ -62,7 +60,7 @@
                 font-size: 8px;
                 letter-spacing: 0.06em;
                 pointer-events: none;
-                z-index: 12;
+                border-radius: 6px;
             }
 
             .counter span {
@@ -256,7 +254,7 @@
 
             @media (max-width: 640px) {
                 .fish {
-                    width: 50px;
+                    width: 45px;
                 }
             }
 
@@ -277,21 +275,30 @@
                 transition: opacity 0.3s ease;
             }
 
-            .footer-privacy {
+            @media (max-width: 640px) {
+                .pellet {
+                    width: 5px;
+                    height: 5px;
+                }
+            }
+
+            .footer-bar {
                 width: min(92vw, 800px);
                 max-width: 800px;
-                text-align: right;
-                font-size: 8px;
-                color: #bbbbbb;
-                margin: 0 auto 6px auto;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 10px;
+                margin: 6px auto 0 auto;
             }
 
-            .footer-privacy a {
+            .footer-bar a {
                 color: #bbbbbb;
                 text-decoration: none;
+                font-size: 8px;
             }
 
-            .footer-privacy a:hover {
+            .footer-bar a:hover {
                 color: #ffffff;
                 text-decoration: underline;
             }
@@ -308,7 +315,6 @@
 
     <body>
         <div class="aquarium">
-            <div class="counter">FEED COUNT: <span id="feedCount">0</span></div>
 
             <img src="g1.png" class="plant p1" alt="plant 1">
             <img src="g2.png" class="plant p2" alt="plant 2">
@@ -340,7 +346,8 @@
             <img src="fish9.png" class="fish f9" alt="">
         </div>
 
-        <div class="footer-privacy">
+        <div class="footer-bar">
+            <div class="counter">FEED COUNT: <span id="feedCount">0</span></div>
             <a href="privacy.html">PRIVACY POLICY</a>
         </div>
 

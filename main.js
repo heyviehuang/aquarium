@@ -62,7 +62,7 @@
             // 飼料列表
             const foods = [];
             const maxFood = 8;
-            const pelletRadius = 5;
+            const pelletRadius = window.innerWidth <= 640 ? 4 : 5;
             const fallSpeed = 0.35; // px per ms
 
             function removeFood(food, eaten = false) {
