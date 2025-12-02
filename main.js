@@ -173,6 +173,16 @@
                 const aqWidth = aquarium.clientWidth;
                 const aqHeight = aquarium.clientHeight;
 
+                // Track how many fish are already chasing each food to reduce crowding
+                const targetCounts = new Map();
+                fishes.forEach(f => {
+                    if (f.targetFood && foods.includes(f.targetFood)) {
+                        targetCounts.set(f.targetFood, (targetCounts.get(f.targetFood) || 0) + 1);
+                    } else {
+                        f.targetFood = null;
+                    }
+                });
+
                 fishes.forEach(fish => {
                     const el = fish.el;
                     const fishWidth = el.offsetWidth;
@@ -182,22 +192,28 @@
                     let left = parseFloat(el.style.left) || 0;
                     let top = fish.top;
 
-                    // 找最近飼料
+                    // 找最近飼料（同時避免全擠一顆）
                     if (foods.length === 0) {
                         fish.targetFood = null;
                     } else if (!fish.targetFood || !foods.includes(fish.targetFood)) {
-                        let closest = null;
-                        let bestDist = Infinity;
+                        let best = null;
+                        let bestCost = Infinity;
                         foods.forEach(food => {
                             const dx = (left + fishWidth / 2) - food.x;
                             const dy = (top + fishHeight / 2) - food.y;
                             const dist = Math.hypot(dx, dy);
-                            if (dist < bestDist) {
-                                bestDist = dist;
-                                closest = food;
+                            const assigned = targetCounts.get(food) || 0;
+                            const bias = 1 + assigned * 0.7;
+                            const cost = dist * bias + Math.random() * 8;
+                            if (cost < bestCost) {
+                                bestCost = cost;
+                                best = food;
                             }
                         });
-                        fish.targetFood = closest;
+                        fish.targetFood = best;
+                        if (fish.targetFood) {
+                            targetCounts.set(fish.targetFood, (targetCounts.get(fish.targetFood) || 0) + 1);
+                        }
                     }
 
                     const moveMultiplier = fish.targetFood ? 1.6 : 1;
