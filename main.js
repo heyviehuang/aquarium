@@ -4,7 +4,9 @@
             const fishEls = Array.from(document.querySelectorAll('.fish'));
             const plantEls = Array.from(document.querySelectorAll('.plant'));
             const feedCountEl = document.getElementById('feedCount');
-            const mobileSpeedFactor = window.innerWidth <= 640 ? 0.7 : 1;
+            const mobileSpeedFactor = window.innerWidth <= 640 ? 0.55 : 1;
+            const mobileDriftFactor = window.innerWidth <= 640 ? 0.35 : 1;
+            const mobileYFactor = window.innerWidth <= 640 ? 0.6 : 1;
             let feedCount = parseInt(localStorage.getItem('feedCount') || '0', 10);
             const updateFeedDisplay = () => {
                 feedCountEl.textContent = feedCount;
@@ -40,7 +42,7 @@
                     top: startTop,
                     targetFood: null,
                     driftDir: Math.random() < 0.5 ? -1 : 1,
-                    driftSpeed: (0.2 + Math.random() * 0.3) * mobileSpeedFactor,
+                    driftSpeed: (0.2 + Math.random() * 0.3) * mobileDriftFactor,
                     driftTimer: 600 + Math.random() * 800
                 };
             });
@@ -221,7 +223,9 @@
                             fish.el.style.transform = fish.dir === 1 ? 'scaleX(-1)' : 'scaleX(1)';
                         }
 
-                        top += Math.max(-3, Math.min(3, dy * 0.05 * moveMultiplier));
+                        const verticalStep = dy * 0.05 * moveMultiplier * mobileYFactor;
+                        const cap = mobileYFactor < 1 ? 2 : 3;
+                        top += Math.max(-cap, Math.min(cap, verticalStep));
                         top = Math.max(10, Math.min(aqHeight - fishHeight - 10, top));
 
                         const dist = Math.hypot(dx, dy);
@@ -235,7 +239,7 @@
                         fish.driftTimer -= delta;
                         if (fish.driftTimer <= 0) {
                             fish.driftDir = Math.random() < 0.5 ? -1 : 1;
-                            fish.driftSpeed = 0.2 + Math.random() * 0.3;
+                            fish.driftSpeed = (0.2 + Math.random() * 0.3) * mobileDriftFactor;
                             fish.driftTimer = 600 + Math.random() * 800;
                         }
                         top += fish.driftDir * fish.driftSpeed * (delta / 16);
