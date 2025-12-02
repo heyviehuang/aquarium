@@ -4,6 +4,7 @@
             const fishEls = Array.from(document.querySelectorAll('.fish'));
             const plantEls = Array.from(document.querySelectorAll('.plant'));
             const feedCountEl = document.getElementById('feedCount');
+            const mobileSpeedFactor = window.innerWidth <= 640 ? 0.7 : 1;
             let feedCount = parseInt(localStorage.getItem('feedCount') || '0', 10);
             const updateFeedDisplay = () => {
                 feedCountEl.textContent = feedCount;
@@ -20,7 +21,7 @@
 
             // 初始化魚的資料
             const fishes = fishEls.map((el) => {
-                const speed = 0.6 + Math.random() * 0.6; // 基礎速度（慢一點）
+                const speed = (0.6 + Math.random() * 0.6) * mobileSpeedFactor; // 基礎速度（慢一點）
                 const dir = Math.random() < 0.5 ? -1 : 1; // -1 往左、1 往右
                 const maxLeft = aquarium.clientWidth - el.offsetWidth;
                 const startLeft = Math.random() * maxLeft;
@@ -39,7 +40,7 @@
                     top: startTop,
                     targetFood: null,
                     driftDir: Math.random() < 0.5 ? -1 : 1,
-                    driftSpeed: 0.2 + Math.random() * 0.3,
+                    driftSpeed: (0.2 + Math.random() * 0.3) * mobileSpeedFactor,
                     driftTimer: 600 + Math.random() * 800
                 };
             });
